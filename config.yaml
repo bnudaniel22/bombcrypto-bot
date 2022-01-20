@@ -321,7 +321,7 @@
   # [pt_BR] Opção para Maximizar Janela Nevegador
   # Valor padrão : True
   # Opções disponíveis: False ou True
-  windows_maximize: False
+  windows_maximize: True
 
   # [en_US] 
   # Default value: 1
