@@ -17,7 +17,7 @@
     #
     # [pt_BR] Intervalo de tempo para atualizar a posição dos heróis no mapa
     # Valor padrão (em minutos): 3
-    refresh_heroes_positions: 4
+    refresh_heroes_positions: 7
     
     # [en_US] Time interval to check for new maps
     # Default value (in minutes): 5 
@@ -153,6 +153,22 @@
     # Valor padrão: 0.7
     bau_wood: 0.7
 
+    # Total baus wood pouca vida
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_wood_50: 0.7
+
+    # Total baus wood Fechado
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_wood_100: 0.7
+
     # Total baus roxo
     # [en_US]
     # Default value: 0.7
@@ -161,7 +177,22 @@
     # Valor padrão: 0.7
     bau_roxo: 0.7
 
-  
+    # Total baus roxo pouca vida
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_roxo_50: 0.7
+
+    # Total baus roxo Fechado
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_roxo_100: 0.7
+
     # Total baus gold
     # [en_US]
     # Default value: 0.7
@@ -169,6 +200,22 @@
     # [pt_BR]
     # Valor padrão: 0.7
     bau_gold: 0.7
+
+    # Total baus gold pouca vida
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_gold_50: 0.7
+
+    # Total baus gold Fechado
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_gold_100: 0.7
 
     # Total baus blue
     # [en_US]
@@ -178,13 +225,21 @@
     # Valor padrão: 0.7
     bau_blue: 0.7
 
-    # Total baus Chave
+    # Total baus blue pouca vida
     # [en_US]
-    # Default value: 0.7
+    # Default value: 0.8
     #
     # [pt_BR]
-    # Valor padrão: 0.7
-    bau_Chave: 0.7
+    # Valor padrão: 0.8
+    bau_blue_50: 0.7
+
+    # Total baus blue Fechado
+    # [en_US]
+    # Default value: 0.8
+    #
+    # [pt_BR]
+    # Valor padrão: 0.8
+    bau_blue_100: 0.7
 
     # [en_US]
     # Default value: 0.9

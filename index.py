@@ -443,10 +443,27 @@ def refreshHeroesPositions():
     else:
         return False
 
+def closeMetamaskWindow():
+    try:
+        title = 'MetaMask Notification'
+        time.sleep(7)
+        achou = False
+        windows = pygetwindow.getWindowsWithTitle(title)
+        for window in windows:
+            achou = True
+            window.close()
+        if achou:  
+            pyautogui.hotkey('ctrl','f5')
+            logger('1')
+            time.sleep(20) 
+    except:
+        print('error for close metamask window')
+
+
 def login():
     global login_attempts
     
-
+    closeMetamaskWindow()
     if login_attempts > 3:
         logger('Too many login attempts, refreshing')
         login_attempts = 0
@@ -548,78 +565,64 @@ def checkBaus():
     logger('Search for Chests to map')
 
     bausWood = positions(images['bau-wood'], threshold=ct['bau_wood'])
-    bausWoodMeio = positions(images['bau-wood-50'], threshold=ct['bau_wood_50'])
-    bausWoodFechado = positions(images['bau-wood-100'], threshold=ct['bau_wood_100'])
+
 
     bausRoxo = positions(images['bau-roxo'], threshold=ct['bau_roxo'])
-    bausRoxoMeio = positions(images['bau-roxo-50'], threshold=ct['bau_roxo_50'])
-    bausRoxoFechado = positions(images['bau-roxo-100'], threshold=ct['bau_roxo_100'])
+
 
     bausGold = positions(images['bau-gold'], threshold=ct['bau_gold'])
-    bausGoldMeio = positions(images['bau-gold-50'], threshold=ct['bau_gold_50'])
-    bausGoldFechado = positions(images['bau-gold-100'], threshold=ct['bau_gold_100'])
+
 
     bausBlue = positions(images['bau-blue'], threshold=ct['bau_blue'])
-    bausBlueMeio = positions(images['bau-blue-50'], threshold=ct['bau_blue_50'])
-    bausBlueFechado = positions(images['bau-blue-100'], threshold=ct['bau_blue_100'])
+
+
+    bausChave = positions(images['bau-Chave'], threshold=ct['bau_Chave'])
+
     
     global response
-    if (len(bausRoxoMeio) > 0 or len(bausGoldMeio) > 0 or len(bausBlueMeio) > 0) and (len(bausRoxo) + len(bausGold) + len(bausBlue)+len(bausRoxoFechado) + len(bausGoldFechado) + len(bausBlueFechado)) > 0:
-        response = (
-                           (len(bausRoxoMeio) + len(bausGoldMeio) + len(bausBlueMeio))
-                           * 100
-                   ) / (len(bausRoxo) + len(bausGold) + len(bausBlue)+len(bausRoxoFechado) + len(bausGoldFechado) + len(bausBlueFechado))
-    else:
-        response = 0
-
     global numerobau
-    numerobau= (len(bausWoodMeio) + len(bausRoxoMeio) + len(bausGoldMeio) + len(bausBlueMeio)+ len(bausWood)+ len(bausRoxo) + len(bausGold) + len(bausBlue)+ len(bausWoodFechado)+ len(bausRoxoFechado) + len(bausGoldFechado) + len(bausBlueFechado))
-    if (len(bausBlue) + len(bausBlueFechado)) > 0 and numerobau > 10:
-       response = 1
+    numerobau= (len(bausWood)+ len(bausRoxo) + len(bausGold) + len(bausBlue) + len(bausChave))
+    if ((len(bausBlue) + len(bausChave)) > 0) and (numerobau > 10):
+        response = 1
+    else:
+        response = 100       
     
-    logger('|Only send Rarities if result is less than 60        | ')
-    logger('|or if blue chests longer than half-life are detected| ')
-    logger('Return for calculation : %d' % (response))
+    logger('|Sends rarity when it has at least one blue chest or | ')
+    logger('|key chest and number of chests greater than ten     | ')
+   # logger('Return for calculation : %d' % (response))
     return response
 
 def NumeroBaus():
 
     bausWood = positions(images['bau-wood'], threshold=ct['bau_wood'])
-    bausWoodMeio = positions(images['bau-wood-50'], threshold=ct['bau_wood_50'])
-    bausWoodFechado = positions(images['bau-wood-100'], threshold=ct['bau_wood_100'])
+
 
     bausRoxo = positions(images['bau-roxo'], threshold=ct['bau_roxo'])
-    bausRoxoMeio = positions(images['bau-roxo-50'], threshold=ct['bau_roxo_50'])
-    bausRoxoFechado = positions(images['bau-roxo-100'], threshold=ct['bau_roxo_100'])
+
 
     bausGold = positions(images['bau-gold'], threshold=ct['bau_gold'])
-    bausGoldMeio = positions(images['bau-gold-50'], threshold=ct['bau_gold_50'])
-    bausGoldFechado = positions(images['bau-gold-100'], threshold=ct['bau_gold_100'])
+
 
     bausBlue = positions(images['bau-blue'], threshold=ct['bau_blue'])
-    bausBlueMeio = positions(images['bau-blue-50'], threshold=ct['bau_blue_50'])
-    bausBlueFechado = positions(images['bau-blue-100'], threshold=ct['bau_blue_100'])
 
-    logger('Chests Wood   =>   '+'   %d +-50 hp ' % len(bausWoodMeio) + '   --   %d +-80 hp ' %len(bausWood) + '   --   %d 100 hp ' % len(bausWoodFechado))
-    logger('Chests Purple =>   '+'   %d +-50 hp ' % len(bausRoxoMeio) + '   --   %d +-80 hp ' %len(bausRoxo) + '   --   %d 100 hp ' % len(bausRoxoFechado))
-    logger('Chests Gold   =>   '+'   %d +-50 hp ' % len(bausGoldMeio) + '   --   %d +-80 hp ' %len(bausGold) + '   --   %d 100 hp' % len(bausGoldFechado))
-    logger('Chests Blue   =>   '+'   %d +-50 hp ' % len(bausBlueMeio) + '   --   %d +-80 hp ' %len(bausBlue) + '   --   %d 100 hp ' % len(bausBlueFechado))
+
+    bausChave = positions(images['bau-Chave'], threshold=ct['bau_Chave'])
+
+    logger('Chests Wood   =>   '+'   %d ' %len(bausWood))
+    logger('Chests Purple =>   '+'   %d ' %len(bausRoxo))
+    logger('Chests Gold   =>   '+'   %d ' %len(bausGold))
+    logger('Chests Blue   =>   '+'   %d ' %len(bausBlue))
+    logger('Chests Key    =>   '+'   %d ' %len(bausChave))
     
     global numerobau
-    numerobau= (len(bausWoodMeio) + len(bausRoxoMeio) + len(bausGoldMeio) + len(bausBlueMeio)+ len(bausWood)+ len(bausRoxo) + len(bausGold) + len(bausBlue)+ len(bausWoodFechado)+ len(bausRoxoFechado) + len(bausGoldFechado) + len(bausBlueFechado))
+    numerobau= (len(bausWood)+ len(bausRoxo) + len(bausGold) + len(bausBlue) + len(bausChave))
     logger('Total Number: %d detected chests' % numerobau)
     return numerobau
 
 def clickFullRest():
-    while (True):
-        buttons = positions(images['rest'], threshold=ct['rest'])
-        if len(buttons) > 0:
-            clickBtn(images['alldesc'])
-           # clickBtn(images['rest'])
-        else:
-            return
+    clickBtn(images['alldesc'])
 
-def refreshHeroes():
+def refreshHeroes(p_all=False):
     logger('Search for heroes to work')
 
     global baus
@@ -628,22 +631,22 @@ def refreshHeroes():
     global numero_baus
     numero_herois = 0
     max_herois = 99
-    if c['mandar_todos_trabalhar'] == False and c['escolher_baus_heroes'] == True:
+    if c['mandar_todos_trabalhar'] == False and c['escolher_baus_heroes'] == True and p_all == False:
         goToHeroes()
         clickFullRest()
         goToGame()
         baus = checkBaus()
         numero_baus = NumeroBaus() 
         if numero_baus < 1:
-           numero_baus = numero_baus + 1 
+           numero_baus = numero_baus + 2 
         if numero_baus > 7:
            logger('---------------------------------💪 Requesting at most {} Heroes '.format(15))
         else: 
-           logger('---------------------------------💪 Requesting at most {} Heroes '.format(numero_baus * 3))   
+           logger('---------------------------------💪 Requesting at most {} Heroes '.format(numero_baus * 4))   
     goToHeroes()
     if FindImageAndBtn(images['select-character-heroes']):
         if True:
-            if c['mandar_todos_trabalhar'] == True:
+            if (c['mandar_todos_trabalhar'] == True) or (p_all == True):
                 if FindImageAndBtn(images['all']):
                     clickBtn(images['all'])
                     logger('heroes sent all to work')
@@ -658,16 +661,20 @@ def refreshHeroes():
                             logger('+Sending all heroes to work') 
                             goToGame()
                             return
-                        max_herois = (numero_baus * 3) - numero_herois
+                        max_herois = (numero_baus * 4) - numero_herois
                         numero_herois = numero_herois + clickGreenBarButtons(baus, max_herois)
                         sendHeroesHome()
-                        if numero_herois == (numero_baus * 3):  
+                        if numero_herois == (numero_baus * 4):  
                             logger('---------------------------------💪+ {} Heroes went to work 💪'.format(numero_herois))                     
                             goToGame()
                             return
                         empty_scrolls_attempts = empty_scrolls_attempts - 1
                         scroll()
-                    logger('---------------------------------💪 {} Heroes went to work 💪'.format(numero_herois))  
+                    if numero_herois < 6: 
+                        logger('---------------------------------💪 all heroes are loading 💪')                     
+                        clickFullRest()
+                    else: 
+                        logger('---------------------------------💪 {} Heroes went to work 💪'.format(numero_herois))  
                 else:       
                     if c['select_heroes_mode'] == "full":
                         logger('Sending heroes with full stamina bar to work', 'green')
@@ -750,6 +757,7 @@ def main():
               
             now = time.time()
             if FindImageAndBtn(images['ok']):
+                last["window"].activate()
                 login_attempts = 0
                 pyautogui.hotkey('ctrl','f5')
                 time.sleep(15)
@@ -758,17 +766,20 @@ def main():
                 login()
 
             bonecozzzc = 0 
+            last["window"].activate()
             if c['escolher_baus_heroes'] == True:
                 bonecozzzc = positions(images['zzz'], threshold=ct['zzz'])
                 if len(bonecozzzc) < 9:
                     time.sleep(2)
                     bonecozzzc = positions(images['zzz'], threshold=ct['zzz']) 
-                logger('Detected %d sleeping Heroes ' % len(bonecozzzc)) 
+                 
                 if now - last["heroes"] > addRandomness(t['send_heroes_for_work'] * 60): 
-                    if len(bonecozzzc) > 9: 
-                        last["heroes"] = now  
-                        last["n9_heroes"] = False         
-                        refreshHeroes()
+                    if len(bonecozzzc) > 9 or last["heroes"] == 0: 
+                        if len(bonecozzzc) > 9:  
+                            logger('Detected %d sleeping Heroes ' % len(bonecozzzc)) 
+                        last["n9_heroes"] = False      
+                        refreshHeroes(last["heroes"] == 0)
+                        last["heroes"] = now   
                         last["refresh_heroes"] = now 
                 else:
                     if len(bonecozzzc) > 9 and last["n9_heroes"] == False:
@@ -784,12 +795,14 @@ def main():
                     last["refresh_heroes"] = now 
     
             if FindImageAndBtn(images['select-wallet-2']):
+                last["window"].activate()
                 sys.stdout.flush()
                 last["login"] = now
                 login()
 
  
             if now - last["login"] > addRandomness(t['check_for_login'] * 60):
+                last["window"].activate() 
                 sys.stdout.flush()
                 last["login"] = now
                 login()
@@ -797,6 +810,7 @@ def main():
 
   
             if now - last["new_map"] > t['check_for_new_map_button']:
+                last["window"].activate()  
                 last["new_map"] = now
 
                 if clickBtn(images['new-map']):
@@ -808,19 +822,21 @@ def main():
                         last["refresh_heroes"] = now  
          
 
-            if now - last["refresh_heroes"] > addRandomness( t['refresh_heroes_positions'] * 60):
-                last["refresh_heroes"] = now
-                refreshHeroesPositions()
-
-           
             if FindImageAndBtn(images['treasure-hunt-icon']):
                 if clickBtn(images['treasure-hunt-icon'], timeout=25):
                     # print('sucessfully login, treasure hunt btn clicked')
+                    last["window"].activate()
                     login_attempts = 0
                     time.sleep(2)
                     last["heroes"] = now 
+
                     refreshHeroes()
                     last["refresh_heroes"] = now 
+
+            if now - last["refresh_heroes"] > addRandomness( t['refresh_heroes_positions'] * 60):
+                last["window"].activate()
+                last["refresh_heroes"] = now
+                refreshHeroesPositions()
             
             logger(None, progress_indicator=True)
 
